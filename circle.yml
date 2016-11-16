@@ -1,4 +1,4 @@
 test:
-    post:
-        - if [ -e ./gradlew ]; then ./gradlew jacocoTestReport;else gradle jacocoTestReport;fi
-        - bash <(curl -s https://codecov.io/bash) -t 75d9cc79-beea-4ddb-a5ed-e628a4bb85a4
+  post:
+    - if [ -e ./gradlew ]; then ./gradlew jacocoTestReport;else gradle jacocoTestReport;fi
+    - bash <(curl -s https://codecov.io/bash) -t 75d9cc79-beea-4ddb-a5ed-e628a4bb85a4
