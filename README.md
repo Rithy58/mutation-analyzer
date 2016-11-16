@@ -7,3 +7,4 @@ Private Repo for CS520 Project
 # Authors:
 + SeihakRithy Muth (Rithy58)
 + Kenny Tsui
++ Ethan Liu
