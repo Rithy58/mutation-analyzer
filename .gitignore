@@ -28,3 +28,6 @@ gradle-app.setting
 
 # Ignore Major framework
 /major/
+
+# Ignore log files for now
+*.log
