@@ -23,3 +23,5 @@ For best result, run the following commands in order. However, simply running "g
 ### Authors:
 + SeihakRithy Muth (Rithy58)
 + Kenny Tsui
++ Ethan Liu
++ Jing Liu
