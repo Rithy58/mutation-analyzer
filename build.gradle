@@ -31,7 +31,7 @@ dependencies {
 
     // Compile Dependencies
     compile 'junit:junit:4.12'
-    compile files('major/config/config.jar', 'sample/')
+    compile files('lib/major/config/config.jar', 'sample/')
 
     // Workaround for gradle
     runtime files(org.gradle.internal.jvm.Jvm.current().toolsJar)
@@ -51,14 +51,14 @@ task extractMajor(type: Copy) {
 // TODO: Test with Windows
 // TODO: make this compileSample and just call other tasks
 task compileSampleProgram(type: Exec, dependsOn: extractMajor) {
-    commandLine 'lib/major/bin/javac', '-XMutator=lib/major/mml/tutorial.mml.bin', 'sample/triangle/Triangle.java'
+    commandLine 'sh', 'lib/major/bin/javac', '-XMutator=lib/major/mml/tutorial.mml.bin', 'sample/triangle/Triangle.java'
 }
 
 // Compile Sample TestSuite
 // TODO: Test with Windows
 // TODO: Use JavaCompile instead
 task compileSampleTestSuite(type: Exec, dependsOn: compileSampleProgram) {
-    commandLine 'lib/major/bin/javac', '-cp', '.:lib/major/lib/junit-4.11.jar:sample/', 'sample/TestSuite.java'
+    commandLine 'sh', 'lib/major/bin/javac', '-cp', '.;lib/major/lib/junit-4.11.jar;sample/', 'sample/TestSuite.java'
 }
 
 // Compile Analyzer to sample folder
