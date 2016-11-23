@@ -31,7 +31,11 @@ dependencies {
 
     // Compile Dependencies
     compile 'junit:junit:4.12'
-    compile files('major/config/config.jar', 'sample/')
+    compile files('lib/major/config/config.jar', 'sample/')
+
+    // Workaround for gradle
+    runtime files(org.gradle.internal.jvm.Jvm.current().toolsJar)
+    compile files(org.gradle.internal.jvm.Jvm.current().toolsJar)
 
     // Declare the dependency for your favourite test framework you want to use in your tests.
     testCompile 'junit:junit:4.12'
@@ -40,32 +44,34 @@ dependencies {
 // Extract Major Framework
 task extractMajor(type: Copy) {
     from zipTree(file('major-1.1.8_jre7.zip'))
-    into file('.')
+    into file('lib/')
 }
 
 // Compile Sample Program with Major
 // TODO: Test with Windows
 // TODO: make this compileSample and just call other tasks
 task compileSampleProgram(type: Exec, dependsOn: extractMajor) {
-    commandLine 'major/bin/javac', '-XMutator=major/mml/tutorial.mml.bin', 'sample/triangle/Triangle.java'
+    commandLine 'sh', 'lib/major/bin/javac', '-XMutator=lib/major/mml/tutorial.mml.bin', 'sample/triangle/Triangle.java'
 }
 
 // Compile Sample TestSuite
 // TODO: Test with Windows
 // TODO: Use JavaCompile instead
-task compileSampleTestSuite(type: Exec, dependsOn: compileSampleProgram) {
-    commandLine 'major/bin/javac', '-cp', '.:major/lib/junit-4.11.jar:sample/', 'sample/TestSuite.java'
+task compileSampleTestSuite(type: JavaCompile, dependsOn: compileSampleProgram) {
+    classpath = files('lib/major/lib/junit-4.11.jar', 'sample/')
+    destinationDir = file('sample/')
+    source = file('sample/TestSuite.java')
 }
 
 // Compile Analyzer to sample folder
 // TODO: Test with Windows
 task compileAnalyzer(type: JavaCompile, dependsOn: compileSampleTestSuite) {
-    classpath = files('major/config/config.jar', 'major/lib/junit-4.11.jar', 'sample/')
+    classpath = files('lib/major/config/config.jar', 'lib/major/lib/junit-4.11.jar', 'sample/')
     destinationDir = file('sample/')
     source = file('src/main/java/Analyzer.java')
 }
 
 task runAnalyzer(type: JavaExec, dependsOn: compileAnalyzer) {
-    classpath = files('major/config/config.jar', 'major/lib/junit-4.11.jar', 'sample/')
+    classpath = files('lib/major/config/config.jar', 'lib/major/lib/junit-4.11.jar', 'sample/')
     main = 'Analyzer'
 }

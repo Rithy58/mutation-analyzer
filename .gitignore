@@ -27,7 +27,7 @@ gradle-app.setting
 # gradle/wrapper/gradle-wrapper.properties
 
 # Ignore Major framework
-/major/
+lib/major/
 
 # Ignore log files for now
 *.log
