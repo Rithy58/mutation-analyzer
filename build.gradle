@@ -57,8 +57,10 @@ task compileSampleProgram(type: Exec, dependsOn: extractMajor) {
 // Compile Sample TestSuite
 // TODO: Test with Windows
 // TODO: Use JavaCompile instead
-task compileSampleTestSuite(type: Exec, dependsOn: compileSampleProgram) {
-    commandLine 'sh', 'lib/major/bin/javac', '-cp', '.;lib/major/lib/junit-4.11.jar;sample/', 'sample/TestSuite.java'
+task compileSampleTestSuite(type: JavaCompile, dependsOn: compileSampleProgram) {
+    classpath = files('lib/major/lib/junit-4.11.jar', 'sample/')
+    destinationDir = file('sample/')
+    source = file('sample/TestSuite.java')
 }
 
 // Compile Analyzer to sample folder
