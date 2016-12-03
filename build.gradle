@@ -41,15 +41,11 @@ task extractMajor(type: Copy) {
 compileJava.dependsOn extractMajor
 
 // Compile Sample Program with Major
-// TODO: Test with Windows
-// TODO: make this compileSample and just call other tasks
 task compileSampleProgram(type: Exec, dependsOn: extractMajor) {
     commandLine 'sh', 'lib/major/bin/javac', '-XMutator=lib/major/mml/tutorial.mml.bin', 'sample/triangle/Triangle.java'
 }
 
 // Compile Sample TestSuite
-// TODO: Test with Windows
-// TODO: Use JavaCompile instead
 task compileSampleTestSuite(type: JavaCompile, dependsOn: compileSampleProgram) {
     classpath = files('lib/major/lib/junit-4.11.jar', 'sample/')
     destinationDir = file('sample/')
@@ -57,14 +53,14 @@ task compileSampleTestSuite(type: JavaCompile, dependsOn: compileSampleProgram) 
 }
 
 // Compile Analyzer to sample folder
-// TODO: Test with Windows
-task compileAnalyzer(type: JavaCompile, dependsOn: compileSampleTestSuite) {
+task compileSampleAnalyzer(type: JavaCompile, dependsOn: compileSampleTestSuite, dependsOn: compileJava) {
     classpath = files('lib/major/config/config.jar', 'lib/major/lib/junit-4.11.jar', 'sample/')
     destinationDir = file('sample/')
-    source = file('src/main/java/Analyzer.java')
+    source = file('src/main/java/SampleAnalyzer.java')
 }
 
-task runAnalyzer(type: JavaExec, dependsOn: compileAnalyzer) {
+// Run the sample Analyzer
+task runSampleAnalyzer(type: JavaExec, dependsOn: compileSampleAnalyzer) {
     classpath = files('lib/major/config/config.jar', 'lib/major/lib/junit-4.11.jar', 'sample/')
     main = 'Analyzer'
 }
