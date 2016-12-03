@@ -38,6 +38,8 @@ task extractMajor(type: Copy) {
     into file('lib/')
 }
 
+compileJava.dependsOn extractMajor
+
 // Compile Sample Program with Major
 // TODO: Test with Windows
 // TODO: make this compileSample and just call other tasks
