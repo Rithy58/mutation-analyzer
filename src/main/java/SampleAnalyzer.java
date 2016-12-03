@@ -12,6 +12,6 @@ public class SampleAnalyzer {
         // TODO: Register plugins
 
         System.out.println("Running Analyzer...");
-        analyzer.run();
+        //analyzer.run();
   }
 }
