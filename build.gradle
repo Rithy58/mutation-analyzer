@@ -53,14 +53,14 @@ task compileSampleTestSuite(type: JavaCompile, dependsOn: compileSampleProgram) 
 }
 
 // Compile Analyzer to sample folder
-task compileSampleAnalyzer(type: JavaCompile, dependsOn: compileSampleTestSuite, dependsOn: compileJava) {
+task compileSampleAnalyzer(type: JavaCompile, dependsOn: [compileSampleTestSuite, compileJava]) {
     classpath = files('lib/major/config/config.jar', 'lib/major/lib/junit-4.11.jar', 'sample/')
     destinationDir = file('sample/')
-    source = file('src/main/java/SampleAnalyzer.java')
+    source = files('src/main/java/')
 }
 
 // Run the sample Analyzer
 task runSampleAnalyzer(type: JavaExec, dependsOn: compileSampleAnalyzer) {
     classpath = files('lib/major/config/config.jar', 'lib/major/lib/junit-4.11.jar', 'sample/')
-    main = 'Analyzer'
+    main = 'SampleAnalyzer'
 }
