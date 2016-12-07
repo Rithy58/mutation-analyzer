@@ -2,22 +2,24 @@ package major.mutation.plugin;
 
 import org.junit.runners.model.TestClass;
 
-public class singleTestLoader implements TestSuiteBuilder {
+public class SingleTestLoader implements TestSuiteBuilder {
 
   private String className;
   private TestClass testSuite;
 
-  public singleTestLoader(String name) {
-    className = name;
-  }
-
-  public void setClassName(String name) {
+  public SingleTestLoader(String name) {
     className = name;
   }
 
   // load the Test Suite and return true if successful
   public boolean loadTest() {
     // TODO: Load the test, return false if test not found
+    try {
+      Class testClass = Class.forName(className);
+      testSuite = new TestClass(testClass);
+    } catch (Throwable throwable) {
+      return false;
+    }
     return true;
   }
 
