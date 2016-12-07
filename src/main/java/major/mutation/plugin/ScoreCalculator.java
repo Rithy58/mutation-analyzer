@@ -6,7 +6,7 @@ import org.junit.runner.Result;
 
 public interface ScoreCalculator {
   // load the result
-  public void loadResult(Result result);
+  public void loadResult(int result);
 
   // calculate the score
   public void calculate();
