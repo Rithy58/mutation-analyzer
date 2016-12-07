@@ -8,8 +8,10 @@ public class SampleAnalyzer {
 
         System.out.println("Loading plugins...");
         // TODO: load plugins
+        TestSuiteBuilder testLoader = new SingleTestLoader("TestSuite.class");
 
         // TODO: Register plugins
+        analyzer.registerTestSuiteBuilder(testLoader);
 
         System.out.println("Running Analyzer...");
         //analyzer.run();
