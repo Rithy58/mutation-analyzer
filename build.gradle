@@ -32,6 +32,10 @@ dependencies {
     testCompile 'junit:junit:4.12'
 }
 
+task wrapper(type: Wrapper) {
+    gradleVersion = '3.2.1'
+}
+
 // Extract Major Framework
 task extractMajor(type: Copy) {
     from zipTree(file('major-1.1.8_jre7.zip'))
