@@ -8,7 +8,7 @@ public class SampleAnalyzer {
 
         System.out.println("Loading plugins...");
         // TODO: load plugins
-        TestSuiteBuilder testLoader = new SingleTestLoader("TestSuite.class");
+        TestSuiteBuilder testLoader = new SingleTestLoader("TestSuite");
         TestSuiteRunner testRunner = new CoverageRunner();
         ScoreCalculator testResult = new MutantKilled();
 
