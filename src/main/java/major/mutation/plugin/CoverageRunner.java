@@ -4,7 +4,7 @@ import org.junit.runners.model.TestClass;
 import org.junit.runner.Result;
 
 
-public class CoverageRunner {
+public class CoverageRunner implements TestSuiteRunner{
   // load the Test Suite
   public void loadTest(TestClass testSuite) {
 

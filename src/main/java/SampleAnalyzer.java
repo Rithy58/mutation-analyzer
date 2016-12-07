@@ -9,11 +9,15 @@ public class SampleAnalyzer {
         System.out.println("Loading plugins...");
         // TODO: load plugins
         TestSuiteBuilder testLoader = new SingleTestLoader("TestSuite.class");
+        TestSuiteRunner testRunner = new CoverageRunner();
+        ScoreCalculator testResult = new MutantKilled();
 
         // TODO: Register plugins
         analyzer.registerTestSuiteBuilder(testLoader);
+        analyzer.registerTestSuiteRunner(testRunner);
+        analyzer.registerScoreCalculator(testResult);
 
         System.out.println("Running Analyzer...");
-        //analyzer.run();
+        analyzer.run();
   }
 }
