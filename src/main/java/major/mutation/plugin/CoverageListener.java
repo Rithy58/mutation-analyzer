@@ -7,7 +7,7 @@ import java.util.*;
 
 public class CoverageListener extends RunListener {
 
-	HashMap<String, List<Integer>> coverage = new HashMap<String, List<Integer>>();
+	LinkedHashMap<String, List<Integer>> coverage = new LinkedHashMap<String, List<Integer>>();
 
 
 	public void testRunStarted (Description description) {
@@ -24,7 +24,7 @@ public class CoverageListener extends RunListener {
 		coverage.put(description.getMethodName(), covered);
 	}
 
-	public HashMap<String, List<Integer>> getCoverage(){
+	public LinkedHashMap<String, List<Integer>> getCoverage(){
 		return coverage;
 	}
 

@@ -9,10 +9,10 @@ import java.util.*;
 
 public class CoverageTestRunner {
 
-  private HashMap<String, List<Integer>> coverage;
+  private LinkedHashMap<String, List<Integer>> coverage;
   private TestClass testSuite;
 
-  public CoverageTestRunner(HashMap coverage, TestClass testClass) {
+  public CoverageTestRunner(LinkedHashMap coverage, TestClass testClass) {
     this.coverage = coverage;
     testSuite = testClass;
   }
