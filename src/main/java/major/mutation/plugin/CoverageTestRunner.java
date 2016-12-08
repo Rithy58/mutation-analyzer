@@ -44,7 +44,7 @@ public class CoverageTestRunner {
   }
 
   public List<Integer> getMutantKilled() {
-    return new ArrayList<Integer>();
+    return killedMutants;
   }
 
 }
