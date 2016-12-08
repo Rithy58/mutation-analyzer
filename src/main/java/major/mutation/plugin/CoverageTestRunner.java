@@ -11,8 +11,7 @@ public class CoverageTestRunner {
 
   private HashMap<String, List<Integer>> coverage;
 
-  public CoverageTestRunner(HashMap coverage, TestClass testClass) throws InitializationError {
-    super(testClass.getJavaClass());
+  public CoverageTestRunner(HashMap coverage, TestClass testClass) {
     this.coverage = coverage;
   }
 
