@@ -5,6 +5,9 @@ import org.junit.runners.model.InitializationError;
 import org.junit.runners.BlockJUnit4ClassRunner;
 import org.junit.runners.model.TestClass;
 import org.junit.runners.model.FrameworkMethod;
+
+import major.mutation.Config;
+
 import java.util.*;
 
 public class CoverageTestRunner {
@@ -26,10 +29,17 @@ public class CoverageTestRunner {
 				}
 			}
 		}
-
 		return mutants;
 	}
 
+  public void run() {
+    for (int mutant : getMutants()) {
+      Config.__M_NO = mutant;
+    }
+  }
 
+  public List<Integer> getMutantKilled() {
+    return new ArrayList<Integer>();
+  }
 
 }
