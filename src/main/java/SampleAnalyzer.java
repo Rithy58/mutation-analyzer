@@ -1,4 +1,5 @@
 import major.mutation.Analyzer;
+import major.mutation.plugin.coverage.CoverageRunner;
 import major.mutation.plugin.*;
 
 public class SampleAnalyzer {

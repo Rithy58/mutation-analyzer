@@ -1,16 +1,10 @@
-package major.mutation.plugin;
-
-import org.junit.Test;
-import org.junit.runners.model.InitializationError;
-import org.junit.runners.BlockJUnit4ClassRunner;
-import org.junit.runners.model.TestClass;
-import org.junit.runners.model.FrameworkMethod;
-import org.junit.runner.JUnitCore;
-import org.junit.runner.Request;
-import org.junit.runner.Result;
+package major.mutation.plugin.coverage;
 
 import major.mutation.Config;
-
+import org.junit.Test;
+import org.junit.runners.BlockJUnit4ClassRunner;
+import org.junit.runners.model.*;
+import org.junit.runner.*;
 import java.util.*;
 
 public class CoverageTestRunner {
@@ -57,5 +51,4 @@ public class CoverageTestRunner {
   public List<Integer> getMutantKilled() {
     return killedMutants;
   }
-
 }
