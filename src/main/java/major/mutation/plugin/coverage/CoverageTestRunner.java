@@ -19,6 +19,7 @@ public class CoverageTestRunner {
     killedMutants = new ArrayList<Integer>();
   }
 
+  // TODO: Optimize this or instead of calculating, just cache from CoverageListener
  	public List<Integer> getMutants(){
 		List<Integer> mutants = new ArrayList<Integer>();
 		for(List<Integer> m : coverage.values()){
@@ -32,14 +33,18 @@ public class CoverageTestRunner {
 	}
 
   public void run() {
-    for (int mutant : getMutants()) {
+    List<Integer> mutants = getMutants();
+    Request request;
+    Result result;
+    JUnitCore runner = new JUnitCore();
+    for (int mutant : mutants) {
       Config.__M_NO = mutant;
       for (String testCase : coverage.keySet()) {
         if(!coverage.get(testCase).contains(mutant)) {
           continue;
         }
-        Request request = Request.method(testClass.getJavaClass(), testCase);
-        Result result = new JUnitCore().run(request);
+        request = Request.method(testClass.getJavaClass(), testCase);
+        result = runner.run(request);
         if (result.getFailureCount() > 0) {
           killedMutants.add(mutant);
           break;

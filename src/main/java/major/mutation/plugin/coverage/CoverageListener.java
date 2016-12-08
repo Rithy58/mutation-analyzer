@@ -11,10 +11,18 @@ public class CoverageListener extends RunListener {
 
 	public CoverageListener() {
 		coverage = new LinkedHashMap<String, List<Integer>>();
+		Config.__M_NO = 0;
 	}
 
 	public void testRunStarted (Description description) {
-		Config.__M_NO = 0;
+		//List<Integer> covered = new ArrayList<Integer>();
+		//covered = Config.getCoverageList();
+
+		//TODO : experiement with printing out the mutants
+
+		//coverage.put(description.getMethodName(), covered);
+		// Get coverage before any test has been run
+		//coverage.put("Init", covered);
 	}
 
 	public void testStarted (Description description) {
@@ -22,9 +30,7 @@ public class CoverageListener extends RunListener {
 	}
 
 	public void testFinished (Description description) {
-		List<Integer> covered = new ArrayList<Integer>();
-		covered = Config.getCoverageList();
-		coverage.put(description.getMethodName(), covered);
+		coverage.put(description.getMethodName(), Config.getCoverageList());
 	}
 
 	public HashMap<String, List<Integer>> getCoverage(){
