@@ -24,12 +24,14 @@ public class CoverageRunner implements TestSuiteRunner{
     junit.addListener(coverageListener);
     junit.run(testClass.getJavaClass());
 
-    CoverageRunnerListener CRL = new CoverageRunnerListener();
-    CRL.addCoverage(coverageListener.getCoverage());
-
-    junit = new JUnitCore();
-    junit.addListener(CRL);
-    junit.run(testClass.getJavaClass());
+    CoverageTestRunner testRunner = new CoverageTestRunner(coverageListener.getCoverage(), testClass);
+    testRunner.run();
+    List<Integer> mutantKilled = testRunner.getMutantKilled();
+    System.out.println("Mutants killed:");
+    for(int mut : mutantKilled) {
+      System.out.print(mut + " ");
+    }
+    System.out.println("\nTotal Mutants killed: " + mutantKilled.size());
   }
 
   // return the TestSuite to be run
@@ -39,7 +41,7 @@ public class CoverageRunner implements TestSuiteRunner{
 
   private class CoverageListener extends RunListener {
 
-  	HashMap<String, List<Integer>> coverage = new HashMap<String, List<Integer>>();
+  	HashMap<String, List<Integer>> coverage = new LinkedHashMap<String, List<Integer>>();
 
   	public void testRunStarted (Description description) {
   		Config.__M_NO = 0;
@@ -66,7 +68,5 @@ public class CoverageRunner implements TestSuiteRunner{
   	public HashMap<String, List<Integer>> getCoverage(){
   		return coverage;
   	}
-
-
   }
 }
