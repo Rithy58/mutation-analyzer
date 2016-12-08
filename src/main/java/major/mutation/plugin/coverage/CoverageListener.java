@@ -1,14 +1,17 @@
-package major.mutation.plugin;
+package major.mutation.plugin.coverage;
 
+import major.mutation.Config;
 import org.junit.runner.notification.RunListener;
 import org.junit.runner.Description;
-import major.mutation.Config;
 import java.util.*;
 
 public class CoverageListener extends RunListener {
 
-	LinkedHashMap<String, List<Integer>> coverage = new LinkedHashMap<String, List<Integer>>();
+	private HashMap<String, List<Integer>> coverage;
 
+	public CoverageListener() {
+		coverage = new LinkedHashMap<String, List<Integer>>();
+	}
 
 	public void testRunStarted (Description description) {
 		Config.__M_NO = 0;
@@ -24,8 +27,7 @@ public class CoverageListener extends RunListener {
 		coverage.put(description.getMethodName(), covered);
 	}
 
-	public LinkedHashMap<String, List<Integer>> getCoverage(){
+	public HashMap<String, List<Integer>> getCoverage(){
 		return coverage;
 	}
-
 }
