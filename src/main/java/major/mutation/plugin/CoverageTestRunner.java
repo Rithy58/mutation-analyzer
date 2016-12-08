@@ -15,6 +15,7 @@ import java.util.*;
 
 public class CoverageTestRunner {
 
+  private JUnitCore core;
   private List<Integer> killedMutants;
   private HashMap<String, List<Integer>> coverage;
   private HashMap<String, Long> runtime;
@@ -25,6 +26,7 @@ public class CoverageTestRunner {
   }
 
   public CoverageTestRunner(HashMap runtime, HashMap coverage, TestClass testClass) {
+    core = new JUnitCore();
     this.runtime = runtime;
     this.coverage = coverage;
     this.testClass = testClass;
@@ -62,7 +64,7 @@ public class CoverageTestRunner {
           continue;
         }
         Request request = Request.method(testClass.getJavaClass(), testCase);
-        Result result = new JUnitCore().run(request);
+        Result result = core.run(request);
         if (result.getFailureCount() > 0) {
           killedMutants.add(mutant);
           break;
