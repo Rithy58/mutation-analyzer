@@ -41,6 +41,9 @@ public class CoverageTestRunner {
     for (int mutant : getMutants()) {
       Config.__M_NO = mutant;
       for (String testCase : coverage.keySet()) {
+        if(!coverage.get(testCase).contains(mutant)) {
+          continue;
+        }
         Request request = Request.method(testClass.getJavaClass(), testCase);
         Result result = new JUnitCore().run(request);
         if (result.getFailureCount() > 0) {
