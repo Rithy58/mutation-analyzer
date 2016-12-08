@@ -5,6 +5,9 @@ import org.junit.runners.model.InitializationError;
 import org.junit.runners.BlockJUnit4ClassRunner;
 import org.junit.runners.model.TestClass;
 import org.junit.runners.model.FrameworkMethod;
+import org.junit.runner.JUnitCore;
+import org.junit.runner.Request;
+import org.junit.runner.Result;
 
 import major.mutation.Config;
 
@@ -14,11 +17,11 @@ public class CoverageTestRunner {
 
   private List<Integer> killedMutants;
   private HashMap<String, List<Integer>> coverage;
-  private TestClass testSuite;
+  private TestClass testClass;
 
   public CoverageTestRunner(HashMap coverage, TestClass testClass) {
     this.coverage = coverage;
-    testSuite = testClass;
+    this.testClass = testClass;
     killedMutants = new ArrayList<Integer>();
   }
 
@@ -38,7 +41,12 @@ public class CoverageTestRunner {
     for (int mutant : getMutants()) {
       Config.__M_NO = mutant;
       for (String testCase : coverage.keySet()) {
-
+        Request request = Request.method(testClass.getJavaClass(), testCase);
+        Result result = new JUnitCore().run(request);
+        if (result.getFailureCount() > 0) {
+          killedMutants.add(mutant);
+          break;
+        }
       }
     }
   }
