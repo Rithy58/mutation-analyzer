@@ -17,19 +17,25 @@ public class CoverageTestRunner {
 
   private List<Integer> killedMutants;
   private HashMap<String, List<Integer>> coverage;
+  private HashMap<String, Long> runtime;
   private TestClass testClass;
 
-  public CoverageTestRunner(HashMap coverage, TestClass testClass) {
+  private CoverageTestRunner() {
+
+  }
+
+  public CoverageTestRunner(HashMap runtime, HashMap coverage, TestClass testClass) {
+    this.runtime = runtime;
     this.coverage = coverage;
     this.testClass = testClass;
     killedMutants = new ArrayList<Integer>();
   }
 
- 	public List<Integer> getMutants(){
+ 	public List<Integer> getMutants() {
 		List<Integer> mutants = new ArrayList<Integer>();
-		for(List<Integer> m : coverage.values()){
-			for(int i = 0; i < m.size(); i++){
-				if(!mutants.contains(m.get(i))){
+		for(List<Integer> m : coverage.values()) {
+			for(int i = 0; i < m.size(); i++) {
+				if(!mutants.contains(m.get(i))) {
 					mutants.add(m.get(i));
 				}
 			}
@@ -38,9 +44,20 @@ public class CoverageTestRunner {
 	}
 
   public void run() {
+    List<String> methodList = new ArrayList<String>(coverage.keySet());
+    methodList.sort(new Comparator<String>() {
+      @Override
+      public int compare(String s1, String s2) {
+        // -1 - less than, 1 - greater than, 0 - equal, all inversed for descending
+        long run1 = runtime.get(s1);
+        long run2 = runtime.get(s2);
+        if (run1 == run2) return 0;
+        return run1 < run2 ? -1 : 1;
+      }
+    });
     for (int mutant : getMutants()) {
       Config.__M_NO = mutant;
-      for (String testCase : coverage.keySet()) {
+      for (String testCase : methodList) {
         if(!coverage.get(testCase).contains(mutant)) {
           continue;
         }

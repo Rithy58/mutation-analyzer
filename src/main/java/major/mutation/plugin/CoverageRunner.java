@@ -24,7 +24,7 @@ public class CoverageRunner implements TestSuiteRunner{
     junit.addListener(coverageListener);
     junit.run(testClass.getJavaClass());
 
-    CoverageTestRunner testRunner = new CoverageTestRunner(coverageListener.getCoverage(), testClass);
+    CoverageTestRunner testRunner = new CoverageTestRunner(coverageListener.getRuntime(), coverageListener.getCoverage(), testClass);
     testRunner.run();
     List<Integer> mutantKilled = testRunner.getMutantKilled();
     System.out.println("Mutants killed:");
@@ -42,19 +42,27 @@ public class CoverageRunner implements TestSuiteRunner{
   private class CoverageListener extends RunListener {
 
   	HashMap<String, List<Integer>> coverage = new LinkedHashMap<String, List<Integer>>();
+    HashMap<String, Long> runtime = new LinkedHashMap<String, Long>();
+
+    private long startTime;
 
   	public void testRunStarted (Description description) {
   		Config.__M_NO = 0;
   	}
 
   	public void testStarted (Description description) {
+      startTime = System.nanoTime();
   		Config.reset();
   	}
 
   	public void testFinished (Description description) {
+      long diffTime = System.nanoTime() - startTime;
   		List<Integer> covered = new ArrayList<Integer>();
   		covered = Config.getCoverageList();
-  		coverage.put(description.getMethodName(), covered);
+      String method = description.getMethodName();
+  		coverage.put(method, covered);
+      runtime.put(method, diffTime);
+
 
   		/*System.out.print(description.getMethodName() + ":");
   		List<Integer> l = Config.getCoverageList();
@@ -68,5 +76,10 @@ public class CoverageRunner implements TestSuiteRunner{
   	public HashMap<String, List<Integer>> getCoverage(){
   		return coverage;
   	}
+
+    public HashMap<String, Long> getRuntime() {
+      return runtime;
+    }
+
   }
 }
