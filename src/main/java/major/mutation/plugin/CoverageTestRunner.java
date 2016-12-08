@@ -12,12 +12,14 @@ import java.util.*;
 
 public class CoverageTestRunner {
 
-  private LinkedHashMap<String, List<Integer>> coverage;
+  private List<Integer> killedMutants;
+  private HashMap<String, List<Integer>> coverage;
   private TestClass testSuite;
 
-  public CoverageTestRunner(LinkedHashMap coverage, TestClass testClass) {
+  public CoverageTestRunner(HashMap coverage, TestClass testClass) {
     this.coverage = coverage;
     testSuite = testClass;
+    killedMutants = new ArrayList<Integer>();
   }
 
  	public List<Integer> getMutants(){
@@ -35,6 +37,9 @@ public class CoverageTestRunner {
   public void run() {
     for (int mutant : getMutants()) {
       Config.__M_NO = mutant;
+      for (String testCase : coverage.keySet()) {
+
+      }
     }
   }
 
