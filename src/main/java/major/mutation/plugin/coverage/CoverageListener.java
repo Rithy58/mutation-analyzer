@@ -7,10 +7,10 @@ import java.util.*;
 
 public class CoverageListener extends RunListener {
 
-	private HashMap<String, List<Integer>> coverage;
+	private TrackingLinkedHashMap<String, List<Integer>, Integer> runInformation;
 
 	public CoverageListener() {
-		coverage = new LinkedHashMap<String, List<Integer>>();
+		runInformation = new TrackingLinkedHashMap<String, List<Integer>, Integer>();
 		Config.__M_NO = 0;
 	}
 
@@ -25,15 +25,18 @@ public class CoverageListener extends RunListener {
 		//coverage.put("Init", covered);
 	}
 
+	private long startTime;
+
 	public void testStarted (Description description) {
 		Config.reset();
+		startTime = System.nanoTime();
 	}
 
 	public void testFinished (Description description) {
-		coverage.put(description.getMethodName(), Config.getCoverageList());
+		runInformation.put(description.getMethodName(), Config.getCoverageList(), System.nanoTime() - startTime);
 	}
 
-	public HashMap<String, List<Integer>> getCoverage(){
-		return coverage;
+	public TrackingLinkedHashMap<String, List<Integer>, Integer> getRunInformation() {
+		return runInformation;
 	}
 }

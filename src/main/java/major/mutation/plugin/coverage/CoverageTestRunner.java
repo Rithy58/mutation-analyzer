@@ -10,43 +10,33 @@ import java.util.*;
 public class CoverageTestRunner {
 
   private List<Integer> killedMutants;
-  private HashMap<String, List<Integer>> coverage;
+  private TrackingLinkedHashMap<String, List<Integer>, Integer> information;
   private TestClass testClass;
 
-  public CoverageTestRunner(HashMap coverage, TestClass testClass) {
-    this.coverage = coverage;
+  public CoverageTestRunner(TrackingLinkedHashMap<String, List<Integer>, Integer> information, TestClass testClass) {
+    this.information = information;
     this.testClass = testClass;
     killedMutants = new ArrayList<Integer>();
   }
 
-  // TODO: Optimize this or instead of calculating, just cache from CoverageListener
- 	public List<Integer> getMutants(){
-		List<Integer> mutants = new ArrayList<Integer>();
-		for(List<Integer> m : coverage.values()){
-			for(int i = 0; i < m.size(); i++){
-				if(!mutants.contains(m.get(i))){
-					mutants.add(m.get(i));
-				}
-			}
-		}
-		return mutants;
-	}
-
   public void run() {
-    List<Integer> mutants = getMutants();
     Request request;
     Result result;
     JUnitCore runner = new JUnitCore();
-    for (int mutant : mutants) {
-      Config.__M_NO = mutant;
-      for (String testCase : coverage.keySet()) {
-        if(!coverage.get(testCase).contains(mutant)) {
+    int mut;
+    List<String> methods = information.getKeys();
+    Iterator<Integer> i = information.getValues().iterator();
+    while (i.hasNext()) {
+      mut = i.next();
+      Config.__M_NO = mut;
+      for (String testCase : methods) {
+        if(!information.get(testCase).contains(mut)) {
           continue;
         }
         request = Request.method(testClass.getJavaClass(), testCase);
         result = runner.run(request);
         if (result.getFailureCount() > 0) {
-          killedMutants.add(mutant);
+          killedMutants.add(mut);
           break;
         }
       }
