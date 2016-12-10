@@ -1,4 +1,4 @@
-package major.mutation.plugin.coverage;
+package major.mutation.plugin.util;
 
 import java.util.ArrayList;
 import java.util.Comparator;
@@ -35,10 +35,12 @@ public class TrackingLinkedHashMap<K, V extends List<E>, E> extends LinkedHashMa
 
 	public List<K> getKeys() {
 		keyList.sort(new Comparator<K>() {
+			long first;
+			long second;
 			@Override
 			public int compare(K a, K b) {
-				long first = keyMap.get(a);
-				long second = keyMap.get(b);
+				first = keyMap.get(a);
+				second = keyMap.get(b);
 				if (first == second) return 0;
 				return first < second ? -1 : 1;
 			}
