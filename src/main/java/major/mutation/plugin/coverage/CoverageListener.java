@@ -8,10 +8,10 @@ import java.util.*;
 
 public class CoverageListener extends RunListener {
 
-	private TrackingLinkedHashMap<String, List<Integer>, Integer> runInformation;
+	private CoverageInformation runInformation;
 
 	public CoverageListener() {
-		runInformation = new TrackingLinkedHashMap<String, List<Integer>, Integer>();
+		runInformation = new CoverageInformation();
 		Config.__M_NO = 0;
 	}
 
@@ -37,7 +37,7 @@ public class CoverageListener extends RunListener {
 		runInformation.put(description.getMethodName(), Config.getCoverageList(), System.nanoTime() - startTime);
 	}
 
-	public TrackingLinkedHashMap<String, List<Integer>, Integer> getRunInformation() {
+	public CoverageInformation getRunInformation() {
 		return runInformation;
 	}
 }
