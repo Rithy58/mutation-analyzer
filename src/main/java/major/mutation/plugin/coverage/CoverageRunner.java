@@ -23,7 +23,7 @@ public class CoverageRunner implements TestSuiteRunner{
     junit.addListener(coverageListener);
     junit.run(testClass.getJavaClass());
 
-    CoverageTestRunner testRunner = new CoverageTestRunner(coverageListener.getCoverage(), testClass);
+    CoverageTestRunner testRunner = new CoverageTestRunner(coverageListener.getRunInformation(), testClass);
     testRunner.run();
     List<Integer> mutantKilled = testRunner.getMutantKilled();
     System.out.println("Mutants killed:");
