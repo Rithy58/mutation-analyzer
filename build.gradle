@@ -48,7 +48,7 @@ compileJava.dependsOn extractMajor
 
 // Compile Sample Program with Major
 task compileSampleProgram(type: Exec, dependsOn: extractMajor) {
-    commandLine 'sh', 'lib/major/bin/javac', '-XMutator=lib/major/mml/tutorial.mml.bin', 'sample/triangle/Triangle.java', '-Xlint:none'
+    commandLine 'sh', 'lib/major/bin/javac', '-XMutator:ALL', 'sample/triangle/Triangle.java', '-Xlint:none'
 }
 
 // Compile Sample TestSuite
