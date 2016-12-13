@@ -4,7 +4,7 @@ import org.junit.runners.model.TestClass;
 
 public interface TestSuiteRunner {
   // load the Test Suite
-  public void loadTest(TestClass testSuite);
+  public void loadTest(TestClass[] testSuite);
 
   // run the Test Suite
   public void runTest();

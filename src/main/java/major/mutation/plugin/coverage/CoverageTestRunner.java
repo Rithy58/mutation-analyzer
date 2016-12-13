@@ -11,37 +11,47 @@ import java.util.*;
 public class CoverageTestRunner {
 
   private List<Integer> killedMutants;
-  private TrackingLinkedHashMap<String, List<Integer>, Integer> information;
-  private TestClass testClass;
+  private CoverageInformation[] information;
+  private TestClass[] testClasses;
 
-  public CoverageTestRunner(TrackingLinkedHashMap<String, List<Integer>, Integer> information, TestClass testClass) {
+  public CoverageTestRunner(CoverageInformation[] information, TestClass[] testClass) {
     this.information = information;
-    this.testClass = testClass;
+    this.testClasses = testClass;
     killedMutants = new ArrayList<Integer>();
   }
 
   public void run() {
-    Request request;
-    Result result;
     JUnitCore runner = new JUnitCore();
-    int mut;
-    List<String> methods = information.getKeys();
-    Iterator<Integer> i = information.getValues().iterator();
+    Iterator<Integer> i = CoverageInformation.getAllMutants().iterator();
     while (i.hasNext()) {
-      mut = i.next();
-      Config.__M_NO = mut;
-      for (String testCase : methods) {
-        if(!information.get(testCase).contains(mut)) {
+      Config.__M_NO = i.next();
+      for (int t = 0; t < testClasses.length; t ++) {
+        if (!information[t].getValues().contains(Config.__M_NO)) {
           continue;
         }
-        request = Request.method(testClass.getJavaClass(), testCase);
-        result = runner.run(request);
-        if (result.getFailureCount() > 0) {
-          killedMutants.add(mut);
+        if (killMutant(testClasses[t], information[t], runner)) {
+          killedMutants.add(Config.__M_NO);
           break;
         }
       }
     }
+  }
+
+  private boolean killMutant(TestClass testClass, CoverageInformation information, JUnitCore runner) {
+    Request request;
+    Result result;
+    List<String> methods = information.getKeys();
+    for (String testCase : methods) {
+      if(!information.get(testCase).contains(Config.__M_NO)) {
+        continue;
+      }
+      request = Request.method(testClass.getJavaClass(), testCase);
+      result = runner.run(request);
+      if (result.getFailureCount() > 0) {
+        return true;
+      }
+    }
+    return false;
   }
 
   public List<Integer> getMutantKilled() {

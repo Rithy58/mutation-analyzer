@@ -2,22 +2,25 @@ package major.mutation.plugin;
 
 import org.junit.runners.model.TestClass;
 
-public class SingleTestLoader implements TestSuiteBuilder {
+public class MultiTestLoader implements TestSuiteBuilder {
 
-  private String className;
+  private String[] className;
   private TestClass[] testSuite;
 
-  public SingleTestLoader(String name) {
+  public MultiTestLoader(String... name) {
     className = name;
+    testSuite = new TestClass[name.length];
   }
 
   // load the Test Suite and return true if successful
   public boolean loadTest() {
     // TODO: Load the test, return false if test not found
-    try {
-      testSuite = new TestClass[] {new TestClass(Class.forName(className))};
-    } catch (Throwable throwable) {
-      return false;
+    for (int i = 0; i < className.length; i ++) {
+      try {
+        testSuite[i] = new TestClass(Class.forName(className[i]));
+      } catch (Throwable throwable) {
+        return false;
+      }
     }
     return true;
   }
@@ -29,7 +32,6 @@ public class SingleTestLoader implements TestSuiteBuilder {
 
   // return the TestSuite to be run
   public TestClass[] getTestSuite() {
-
     return testSuite;
   }
 }

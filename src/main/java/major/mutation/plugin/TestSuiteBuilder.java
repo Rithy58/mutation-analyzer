@@ -10,5 +10,5 @@ public interface TestSuiteBuilder {
   public void setupTest();
 
   // return the TestSuite to be run
-  public TestClass getTestSuite();
+  public TestClass[] getTestSuite();
 }
