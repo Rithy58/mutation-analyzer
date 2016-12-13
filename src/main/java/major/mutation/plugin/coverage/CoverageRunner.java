@@ -2,26 +2,34 @@ package major.mutation.plugin.coverage;
 
 import major.mutation.Config;
 import major.mutation.plugin.TestSuiteRunner;
+import major.mutation.plugin.util.*;
 import org.junit.runners.model.TestClass;
 import org.junit.runner.*;
 import java.util.*;
 
+
 public class CoverageRunner implements TestSuiteRunner{
 
   private int result;
-  private TestClass testClass;
+  private TestClass[] testClasses;
 
   // load the Test Suite
-  public void loadTest(TestClass testSuite) {
-    testClass = testSuite;
+  public void loadTest(TestClass[] testSuites) {
+    testClasses = testSuites;
   }
 
   // run the Test Suite
   public void runTest() {
+    CoverageInformation[] information;
     JUnitCore junit = new JUnitCore();
-    CoverageListener coverageListener = new CoverageListener();
-    junit.addListener(coverageListener);
-    junit.run(testClass.getJavaClass());
+    for(int i = 0; i < testClasses.length; i++ {
+      CoverageListener coverageListener = new CoverageListener();
+      junit.addListener(coverageListener);
+      junit.run(testClasses[i].getJavaClass());
+      information[i] = coverageListener.getRunInformation();
+      junit.removeListener(coverageListener);
+    }
+
 
     CoverageTestRunner testRunner = new CoverageTestRunner(coverageListener.getRunInformation(), testClass);
     testRunner.run();
