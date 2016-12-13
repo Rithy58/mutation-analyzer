@@ -12,13 +12,17 @@ public class AnalyzerTest {
     public void testAnalyzer() {
         Analyzer analyzer = new Analyzer();
         assertNotNull("Analyzer failed to instantiate", analyzer);
-        TestSuiteBuilder testLoader = new MultiTestLoader("");
-        TestSuiteBuilder singleTestLoader = new SingleTestLoader("");
+        TestSuiteBuilder testLoader = new MultiTestLoader("test", "test2");
+        TestSuiteBuilder singleTestLoader = new SingleTestLoader("test");
         TestSuiteRunner testRunner = new CoverageRunner();
         ScoreCalculator testResult = new MutantKilled();
 
         analyzer.registerTestSuiteBuilder(testLoader);
         analyzer.registerTestSuiteRunner(testRunner);
         analyzer.registerScoreCalculator(testResult);
+
+        analyzer.run();
+
+        Analyzer analyzer2 = new Analyzer(testLoader, testRunner, testResult);
     }
 }
