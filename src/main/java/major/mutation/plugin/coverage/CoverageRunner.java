@@ -22,7 +22,7 @@ public class CoverageRunner implements TestSuiteRunner{
   public void runTest() {
     CoverageInformation[] information;
     JUnitCore junit = new JUnitCore();
-    for(int i = 0; i < testClasses.length; i++ {
+    for(int i = 0; i < testClasses.length; i++) {
       CoverageListener coverageListener = new CoverageListener();
       junit.addListener(coverageListener);
       junit.run(testClasses[i].getJavaClass());
