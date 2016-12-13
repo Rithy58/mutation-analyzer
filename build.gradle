@@ -55,7 +55,7 @@ task compileSampleProgram(type: Exec, dependsOn: extractMajor) {
 task compileSampleTestSuite(type: JavaCompile, dependsOn: compileSampleProgram) {
     classpath = files('lib/major/lib/junit-4.11.jar', 'sample/')
     destinationDir = file('sample/')
-    source = file('sample/TestSuite.java')
+    source = files('sample/TestSuite.java', 'sample/TestSuite0.java')
 }
 
 // Compile Analyzer to sample folder
