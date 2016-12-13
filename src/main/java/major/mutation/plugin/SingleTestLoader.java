@@ -5,7 +5,7 @@ import org.junit.runners.model.TestClass;
 public class SingleTestLoader implements TestSuiteBuilder {
 
   private String className;
-  private TestClass testSuite;
+  private TestClass[] testSuite;
 
   public SingleTestLoader(String name) {
     className = name;
@@ -15,8 +15,7 @@ public class SingleTestLoader implements TestSuiteBuilder {
   public boolean loadTest() {
     // TODO: Load the test, return false if test not found
     try {
-      Class testClass = Class.forName(className);
-      testSuite = new TestClass(testClass);
+      testSuite = new TestClass[] {new TestClass(Class.forName(className))};
     } catch (Throwable throwable) {
       return false;
     }
@@ -29,7 +28,7 @@ public class SingleTestLoader implements TestSuiteBuilder {
   }
 
   // return the TestSuite to be run
-  public TestClass getTestSuite() {
+  public TestClass[] getTestSuite() {
 
     return testSuite;
   }

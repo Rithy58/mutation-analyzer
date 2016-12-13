@@ -20,7 +20,7 @@ public class CoverageRunner implements TestSuiteRunner{
 
   // run the Test Suite
   public void runTest() {
-    CoverageInformation[] information;
+    CoverageInformation[] information = new CoverageInformation[testClasses.length];
     JUnitCore junit = new JUnitCore();
     for(int i = 0; i < testClasses.length; i++) {
       CoverageListener coverageListener = new CoverageListener();
@@ -31,7 +31,7 @@ public class CoverageRunner implements TestSuiteRunner{
     }
 
 
-    CoverageTestRunner testRunner = new CoverageTestRunner(coverageListener.getRunInformation(), testClass);
+    CoverageTestRunner testRunner = new CoverageTestRunner(information, testClasses);
     testRunner.run();
     List<Integer> mutantKilled = testRunner.getMutantKilled();
     System.out.println("Mutants killed:");
