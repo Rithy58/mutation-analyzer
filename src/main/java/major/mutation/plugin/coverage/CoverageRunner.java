@@ -33,12 +33,12 @@ public class CoverageRunner implements TestSuiteRunner{
 
     CoverageTestRunner testRunner = new CoverageTestRunner(information, testClasses);
     testRunner.run();
-    List<Integer> mutantKilled = testRunner.getMutantKilled();
-    System.out.println("Mutants killed:");
+    result = testRunner.getMutantKilled().size();
+    /*System.out.println("Mutants killed:");
     for(int mut : mutantKilled) {
       System.out.print(mut + " ");
     }
-    System.out.println("\nTotal Mutants killed: " + mutantKilled.size());
+    System.out.println("\nTotal Mutants killed: " + mutantKilled.size());*/
   }
 
   // return the TestSuite to be run

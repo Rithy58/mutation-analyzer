@@ -18,6 +18,6 @@ public class MutantKilled implements ScoreCalculator {
 
   // output the result, maybe override the toString()?
   public void outputResult() {
-    System.out.println("Mutants killed: " + mutantsKilled + "\n");
+    System.out.println("Mutants killed: " + mutantsKilled);
   }
 }
