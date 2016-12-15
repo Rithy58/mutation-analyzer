@@ -1,5 +1,4 @@
 package major.mutation;
-import major.mutation.Config;
 import major.mutation.plugin.*;
 
 public class Analyzer {
