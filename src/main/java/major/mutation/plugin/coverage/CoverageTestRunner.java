@@ -26,9 +26,7 @@ public class CoverageTestRunner {
   public void run() {
     JUnitCore runner = new JUnitCore();
     Iterator<Integer> i = CoverageInformation.getAllMutants().iterator();
-    int count = 0;
-    while (i.hasNext() && count < 300) {
-      count ++;
+    while (i.hasNext()) {
       Config.__M_NO = i.next();
       for (int t = 0; t < testClasses.length; t ++) {
         if (!information[t].getValues().contains(Config.__M_NO)) {
