@@ -36,6 +36,12 @@ public class CoverageInformation extends LinkedHashMap<String, List<Integer>> {
 		return valueSet;
 	}
 
+	public long getRuntime(String method) {
+		Long time = keyMap.get(method);
+		if (time == null) return -1;
+		return time;
+	}
+
 	public List<String> getKeys() {
 		keyList.sort(new Comparator<String>() {
 			long first;

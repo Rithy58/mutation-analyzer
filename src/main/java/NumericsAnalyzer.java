@@ -2,6 +2,10 @@ import major.mutation.Analyzer;
 import major.mutation.plugin.coverage.CoverageRunner;
 import major.mutation.plugin.*;
 
+import java.util.*;
+import java.io.*;
+import java.nio.charset.*;
+
 public class NumericsAnalyzer {
   public static void main(String[] args) {
         System.out.println("Initializing Major Mutation Analyzer...");
@@ -10,7 +14,24 @@ public class NumericsAnalyzer {
         System.out.println("Loading plugins...");
         // TODO: load plugins
         // TestSuiteBuilder testLoader = new SingleTestLoader("TestSuite");
-        TestSuiteBuilder testLoader = new MultiTestLoader("TestSuite", "TestSuite0");
+        List<String> tests = new ArrayList<>();
+        try (
+            InputStream fis = new FileInputStream("testMap.csv");
+            InputStreamReader isr = new InputStreamReader(fis, Charset.forName("UTF-8"));
+            BufferedReader br = new BufferedReader(isr);
+        ) {
+            String line;
+            while ((line = br.readLine()) != null) {
+                if (line.length() > 0) {
+                  tests.add(line);
+                }
+            }
+        } catch (Exception e) {
+          e.printStackTrace();
+        }
+        String[] testSuites = new String[tests.size()];
+        tests.toArray(testSuites);
+        TestSuiteBuilder testLoader = new MultiTestLoader(testSuites);
         TestSuiteRunner testRunner = new CoverageRunner();
         ScoreCalculator testResult = new MutantKilled();
 
@@ -21,5 +42,6 @@ public class NumericsAnalyzer {
 
         System.out.println("Running Analyzer...");
         analyzer.run();
+        System.exit(1);
   }
 }
