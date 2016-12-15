@@ -42,6 +42,7 @@ public class NumericsAnalyzer {
 
         System.out.println("Running Analyzer...");
         analyzer.run();
-        System.exit(1);
+        System.out.println("Alive: " + Thread.activeCount());
+        System.exit(0);
   }
 }

@@ -26,7 +26,9 @@ public class CoverageTestRunner {
   public void run() {
     JUnitCore runner = new JUnitCore();
     Iterator<Integer> i = CoverageInformation.getAllMutants().iterator();
-    while (i.hasNext()) {
+    int count = 0;
+    while (i.hasNext() && count < 300) {
+      count ++;
       Config.__M_NO = i.next();
       for (int t = 0; t < testClasses.length; t ++) {
         if (!information[t].getValues().contains(Config.__M_NO)) {
@@ -42,37 +44,31 @@ public class CoverageTestRunner {
   }
 
   private boolean killMutant(TestClass testClass, CoverageInformation information, JUnitCore runner) {
-    Request request;
+    Request[] request = new Request[1];
     List<String> methods = information.getKeys();
     for (String testCase : methods) {
       if(!information.get(testCase).contains(Config.__M_NO)) {
         continue;
       }
-      request = Request.method(testClass.getJavaClass(), testCase);
+      request[0] = Request.method(testClass.getJavaClass(), testCase);
       boolean[] runFinished = new boolean[] {false};
       boolean[] runResult =  new boolean[] {false};
-      Thread t = new Thread(new Runnable() {
+      ExecutorService service = Executors.newSingleThreadExecutor();
+      Future future = service.submit(new Runnable() {
         public void run() {
-          Result result = runner.run(request);
+          Result result = runner.run(request[0]);
           runFinished[0] = true;
           if (result.getFailureCount() > 0) {
             runResult[0] = true;
           }
         }
       });
-      t.start();
-      try {
-        t.join(TIMEOUT_TIME);
-      } catch (Exception e) {
-        e.printStackTrace();
+      try {service.awaitTermination(TIMEOUT_TIME, TimeUnit.MILLISECONDS);} catch (Exception e) {e.printStackTrace();}
+      service.shutdown();
+
+      if (!runFinished[0] || runResult[0]) {
+        return true;
       }
-      if (t.isAlive()) {
-        t.interrupt();
-      }
-      if (runFinished[0]) {
-        return runResult[0];
-      }
-      return true;
     }
     return false;
   }
