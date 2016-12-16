@@ -41,7 +41,7 @@ public class FilterRunner implements TestSuiteRunner {
     return result;
   }
 
-  private Filter createFilter(CoverageInformation information, Class tests[], int mutant) {
+  private void createFilter(CoverageInformation information, Class tests[], int mutant) {
     //Description desc = new Description();
     for(int i = 0; i < tests.length; i++) {
 
