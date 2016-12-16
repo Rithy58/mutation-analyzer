@@ -1,6 +1,6 @@
 import major.mutation.Analyzer;
-import major.mutation.plugin.naive.NaiveRunner;
-import major.mutation.plugin.coverage.CoverageRunner;
+import major.mutation.plugin.naive.*;
+import major.mutation.plugin.coverage.CoverageRuntimeRunner;
 import major.mutation.plugin.*;
 
 public class SampleAnalyzer {
@@ -15,6 +15,7 @@ public class SampleAnalyzer {
 
         TestSuiteRunner naiveRunner = new NaiveRunner();
         TestSuiteRunner coverageRunner = new CoverageRunner();
+        TestSuiteRunner coverageRuntimeRunner = new CoverageRuntimeRunner();
 
         ScoreCalculator testResult = new MutantKilled();
 
@@ -36,5 +37,12 @@ public class SampleAnalyzer {
         analyzer.run();
         duration = System.nanoTime() - startTime;
         System.out.println("Coverage finished in " + duration + " nanoseconds\n");
+
+        System.out.println("Running Analyzer with coverage & runtime...");
+        analyzer.registerTestSuiteRunner(coverageRuntimeRunner);
+        startTime = System.nanoTime();
+        analyzer.run();
+        duration = System.nanoTime() - startTime;
+        System.out.println("Coverage & Runtime finished in " + duration + " nanoseconds\n");
   }
 }

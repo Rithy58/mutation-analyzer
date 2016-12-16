@@ -9,7 +9,9 @@ import org.junit.runners.model.InitializationError;
 import org.junit.runner.*;
 import java.util.*;
 
-public class CoverageRunner implements TestSuiteRunner {
+public class CoverageRuntimeRunner implements TestSuiteRunner {
+
+  private static final long JOIN_TIMEOUT = 1000;
 
   private int result;
   private TestClass[] testClasses;
@@ -25,14 +27,8 @@ public class CoverageRunner implements TestSuiteRunner {
   // run the Test Suite
   public void runTest() {
     CoverageInformation[] information = new CoverageInformation[testClasses.length];
-    TimeoutRunner[] timedRunners = new TimeoutRunner[testClasses.length];
     JUnitCore junit = new JUnitCore();
     for(int i = 0; i < testClasses.length; i++) {
-      try {
-        timedRunners[i] = new TimeoutRunner(testClasses[i].getJavaClass());
-      } catch (InitializationError error) {
-        continue;
-      }
       CoverageListener coverageListener = new CoverageListener();
       junit.addListener(coverageListener);
       junit.run(testClasses[i].getJavaClass());
@@ -47,7 +43,7 @@ public class CoverageRunner implements TestSuiteRunner {
         if (!information[t].getValues().contains(Config.__M_NO)) {
           continue;
         }
-        if (killMutant(testClasses[t], information[t], timedRunners[t])) {
+        if (killMutant(testClasses[t], information[t], junit)) {
           killedMutants.add(Config.__M_NO);
           result ++;
           break;
@@ -56,33 +52,56 @@ public class CoverageRunner implements TestSuiteRunner {
     }
   }
 
-  private boolean killMutant(TestClass testClass, CoverageInformation information, TimeoutRunner runner) {
-    for (FrameworkMethod method : runner.getChildren()) {
-      String testCase = method.getName();
-      if (!information.get(testCase).contains(Config.__M_NO)) continue;
-      if (runner.runTimeoutChild(method)) {
+  private boolean killMutant(TestClass testClass, CoverageInformation information, JUnitCore runner) {
+    Request request;
+    Result result;
+    MethodThread t;
+    List<String> methods = information.getSortedKeys();
+    for (String testCase : methods) {
+      if(!information.get(testCase).contains(Config.__M_NO)) {
+        continue;
+      }
+      t = new MethodThread(runner, testClass, testCase);
+      t.start();
+      try {
+        // System.out.println(information.getRuntime(testCase));
+        t.join(10, Math.min(999999, information.getRuntime(testCase) * 100));
+      } catch (InterruptedException e) {
+        // Failed to interrupt
+      }
+      if (!t.finished || !t.passed) {
         return true;
       }
     }
     return false;
-    // Request request;
-    // Result result;
-    // List<String> methods = information.getKeys();
-    // for (String testCase : methods) {
-    //   if(!information.get(testCase).contains(Config.__M_NO)) {
-    //     continue;
-    //   }
-    //   request = Request.method(testClass.getJavaClass(), testCase);
-    //   result = runner.run(request);
-    //   if (result.getFailureCount() > 0) {
-    //     return true;
-    //   }
-    // }
-    // return false;
   }
 
   // return the TestSuite to be run
   public int getResult() {
     return result;
   }
+
+  private static class MethodThread extends Thread {
+    private final JUnitCore junit;
+    private final Class<?> testClass;
+    private final String testMethod;
+    private boolean passed = true;
+    private boolean finished = false;
+
+    public MethodThread(JUnitCore core, TestClass clazz, String method) {
+      junit = core;
+      testClass = clazz.getJavaClass();
+      testMethod = method;
+    }
+
+
+    @Override
+    public void run() {
+      if (junit.run(Request.method(testClass, testMethod)).getFailureCount() > 0) {
+        passed = false;
+      }
+      finished = true;
+    }
+  }
+
 }

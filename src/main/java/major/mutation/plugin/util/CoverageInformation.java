@@ -33,6 +33,10 @@ public class CoverageInformation extends LinkedHashMap<String, List<Integer>> {
 		return put(key, value);
 	}
 
+	public int getRuntime(String name) {
+		return keyMap.get(name).intValue();
+	}
+
 	public HashSet<Integer> getValues() {
 		return valueSet;
 	}
