@@ -40,7 +40,7 @@ public class CoverageTestRunner {
   private boolean killMutant(TestClass testClass, CoverageInformation information, JUnitCore runner) {
     Request request;
     Result result;
-    List<String> methods = information.getKeys();
+    List<String> methods = information.getSortedKeys();
     for (String testCase : methods) {
       if(!information.get(testCase).contains(Config.__M_NO)) {
         continue;
