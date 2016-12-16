@@ -44,6 +44,7 @@ public class CoverageRunner implements TestSuiteRunner {
           continue;
         }
         if (killMutant(testClasses[t], information[t], junit)) {
+          System.out.println("Killed Mutant #" + Config.__M_NO);
           killedMutants.add(Config.__M_NO);
           result ++;
           break;
@@ -66,7 +67,7 @@ public class CoverageRunner implements TestSuiteRunner {
       try {
         // System.out.println(information.getRuntime(testCase));
         int milliseconds = 0;
-        int deltaRemainder = information.getRuntime(testCase) * 10;
+        int deltaRemainder = information.getRuntime(testCase) * 100;
         if ( deltaRemainder > 999999 ) {
              milliseconds = deltaRemainder / 1000000;
              deltaRemainder = deltaRemainder % 1000000;

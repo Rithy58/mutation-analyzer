@@ -2,7 +2,7 @@ package major.mutation.plugin;
 
 import org.junit.runners.model.TestClass;
 import major.mutation.plugin.util.*;
-import junit.runner.Version;
+
 public class MultiTestLoader implements TestSuiteBuilder {
 
   private String[] className;
@@ -10,7 +10,7 @@ public class MultiTestLoader implements TestSuiteBuilder {
 
   public MultiTestLoader(String... name) {
     className = name;
-    testSuite = new TestClass[name.length];System.out.println("JUnit version is: " + Version.id());
+    testSuite = new TestClass[name.length];
   }
 
   // load the Test Suite and return true if successful
