@@ -1,4 +1,9 @@
-# cs520-project [![CircleCI](https://circleci.com/gh/Rithy58/mutation-analyzer.svg?style=shield)](https://circleci.com/gh/Rithy58/mutation-analyzer) [![Build Status](https://travis-ci.com/Rithy58/cs520-project.svg?token=D8MZUVqYSoqQhwnmjbyh&branch=master)](https://travis-ci.com/Rithy58/cs520-project) [![codecov](https://codecov.io/gh/Rithy58/mutation-analyzer/branch/master/graph/badge.svg)](https://codecov.io/gh/Rithy58/mutation-analyzer) [![Build status](https://ci.appveyor.com/api/projects/status/juu9yxwa260j7u6y/branch/master?svg=true)](https://ci.appveyor.com/project/Rithy58/mutation-analyzer/branch/master)
+# Mutation Analyzer
+
+[![Linux Build][circleci-img]][circleci-url]
+[![Mac Build][travisci-img]][travisci-url]
+[![Windows Build][appveyor-img]][appveyor-url]
+[![Test Coverage][codecov-img]][codecov-url]
 
 Private Repo for CS520 Project
 
@@ -37,3 +42,12 @@ For best result, run the following commands in order. However, simply running `g
 + Kenny Tsui
 + Ethan Liu
 + Jing Liu
+
+[circleci-img]: https://img.shields.io/circleci/project/github/Rithy58/mutation-analyzer.svg?label=linux
+[circleci-url]: https://circleci.com/gh/Rithy58/mutation-analyzer
+[travisci-img]: https://img.shields.io/travis/Rithy58/mutation-analyzer/master.svg?label=mac
+[travisci-url]: https://travis-ci.org/Rithy58/mutation-analyzer
+[appveyor-img]: https://img.shields.io/appveyor/ci/Rithy58/mutation-analyzer/master.svg?label=windows
+[appveyor-url]: https://ci.appveyor.com/project/Rithy58/mutation-analyzer/
+[codecov-img]: https://img.shields.io/codecov/c/github/Rithy58/mutation-analyzer/master.svg
+[codecov-url]: https://codecov.io/gh/Rithy58/mutation-analyzer
