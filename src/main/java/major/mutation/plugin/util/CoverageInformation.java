@@ -36,7 +36,7 @@ public class CoverageInformation extends LinkedHashMap<String, List<Integer>> {
 		return valueSet;
 	}
 
-	public List<String> getKeys() {
+	public List<String> getSortedKeys() {
 		keyList.sort(new Comparator<String>() {
 			long first;
 			long second;
@@ -48,6 +48,10 @@ public class CoverageInformation extends LinkedHashMap<String, List<Integer>> {
 				return first < second ? -1 : 1;
 			}
 		});
+		return keyList;
+	}
+
+	public List<String> getKeys() {
 		return keyList;
 	}
 
