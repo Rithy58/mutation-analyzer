@@ -6,6 +6,7 @@ import major.mutation.plugin.coverage.CoverageListener;
 import major.mutation.plugin.util.*;
 import org.junit.runners.model.TestClass;
 import org.junit.runner.*;
+import org.junit.runner.manipulation.Filter;
 import java.util.*;
 
 public class FilterRunner implements TestSuiteRunner {
@@ -21,10 +22,14 @@ public class FilterRunner implements TestSuiteRunner {
   public void runTest() {
     CoverageInformation[] information = new CoverageInformation[testClasses.length];
     JUnitCore junit = new JUnitCore();
+    Class tests[] = new Class[testClasses.length];
     for(int i = 0; i < testClasses.length; i++) {
+      tests[i] = testClasses[i].getJavaClass();
+    }
+    for(int i = 0; i < tests.length; i++) {
       CoverageListener coverageListener = new CoverageListener();
       junit.addListener(coverageListener);
-      junit.run(testClasses[i].getJavaClass());
+      junit.run(tests[i]);
       information[i] = coverageListener.getRunInformation();
       junit.removeListener(coverageListener);
     }
@@ -34,5 +39,12 @@ public class FilterRunner implements TestSuiteRunner {
 
   public int getResult() {
     return result;
+  }
+
+  private Filter createFilter(CoverageInformation information, Class tests[], int mutant) {
+    //Description desc = new Description();
+    for(int i = 0; i < tests.length; i++) {
+
+    }
   }
 }
