@@ -1,14 +1,13 @@
-package major.mutation.plugin.naive;
+package major.mutation.plugin.coverage;
 
 import major.mutation.Config;
 import major.mutation.plugin.TestSuiteRunner;
-import major.mutation.plugin.coverage.*;
+import major.mutation.plugin.util.*;
 import org.junit.runners.model.TestClass;
 import org.junit.runner.*;
-import major.mutation.plugin.util.*;
 import java.util.*;
 
-public class CoverageRunner implements TestSuiteRunner {
+public class CoverageOnlyRunner implements TestSuiteRunner {
   private int result;
   private TestClass[] testClasses;
 
