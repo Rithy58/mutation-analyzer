@@ -5,37 +5,34 @@
 [![Windows Build][appveyor-img]][appveyor-url]
 [![Test Coverage][codecov-img]][codecov-url]
 
-Private Repo for CS520 Project
+A simple mutation analyzer library for Major Mutation Framework
 
 ### Getting Started:
-This project come with a sample folder consisting of a program and a TestSuite
-to be use with the Mutation Analyzer.
 
 The project can be build with Gradle using the following commands. If gradle is not installed on the system, there is a gradle wrapper, so instead of "gradle tasks" simply use "./gradlew tasks" for Linux/Mac or "gradlew.bat tasks" for Windows.
 
 ##### Building and Testing the Analyzer
+Extract the required Major Framework:
+```bash
+$ gradle extractMajor
+```
 
-`gradle extractMajor` will extract the required Major framework
+Build the project:
+```bash
+$ gradle build
+```
 
-`gradle build` will build the project
-
-`gradle test` will test the project
-
+Test the project:
+```bash
+$ gradle test
+```
 
 
 ##### Running the Analyzer on the provided Sample Program and Test Suite
-
-For best result, run the following commands in order. However, simply running `gradle runSampleAnalyzer` should works too.
-
-`gradle extractMajor` will extract the required Major framework
-
-`gradle compileSampleProgram` will compile and mutate the sample program
-
-`gradle compileSampleTestSuite` will compile the sample Test suite
-
-`gradle compileSampleAnalyzer` will compile the sample Analyzer into the sample folder
-
-`gradle runSampleAnalyzer` will do all of the above then run the sample analyzer
+This project come with a sample folder consisting of a program and a TestSuite. The provided SampleAnalyzer can be run to demo the Mutation Analyzer library.
+```bash
+$ gradle runSampleAnalyzer
+```
 
 ### Authors:
 + SeihakRithy Muth (Rithy58)
