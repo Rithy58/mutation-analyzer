@@ -7,20 +7,22 @@ import org.junit.runners.model.TestClass;
 import org.junit.runner.*;
 import java.util.*;
 
-
 public class CoverageRunner implements TestSuiteRunner{
-
   private int result;
   private TestClass[] testClasses;
+  private List<Integer> killedMutants;
 
   // load the Test Suite
   public void loadTest(TestClass[] testSuites) {
     testClasses = testSuites;
+    result = 0;
+    killedMutants = new ArrayList<Integer>();
   }
 
   // run the Test Suite
   public void runTest() {
     CoverageInformation[] information = new CoverageInformation[testClasses.length];
+    CoverageInformation.reset();
     JUnitCore junit = new JUnitCore();
     for(int i = 0; i < testClasses.length; i++) {
       CoverageListener coverageListener = new CoverageListener();
@@ -30,18 +32,39 @@ public class CoverageRunner implements TestSuiteRunner{
       junit.removeListener(coverageListener);
     }
 
-
-    CoverageTestRunner testRunner = new CoverageTestRunner(information, testClasses);
-    testRunner.run();
-    result = testRunner.getMutantKilled().size();
-    /*System.out.println("Mutants killed:");
-    for(int mut : mutantKilled) {
-      System.out.print(mut + " ");
+    Iterator<Integer> i = CoverageInformation.getAllMutants().iterator();
+    while (i.hasNext()) {
+      Config.__M_NO = i.next();
+      for (int t = 0; t < testClasses.length; t ++) {
+        if (!information[t].getValues().contains(Config.__M_NO)) {
+          continue;
+        }
+        if (killMutant(testClasses[t], information[t], junit)) {
+          result ++;
+          killedMutants.add(Config.__M_NO);
+          break;
+        }
+      }
     }
-    System.out.println("\nTotal Mutants killed: " + mutantKilled.size());*/
   }
 
-  // return the TestSuite to be run
+  private boolean killMutant(TestClass testClass, CoverageInformation information, JUnitCore runner) {
+    Request request;
+    Result result;
+    List<String> methods = information.getSortedKeys();
+    for (String testCase : methods) {
+      if(!information.get(testCase).contains(Config.__M_NO)) {
+        continue;
+      }
+      request = Request.method(testClass.getJavaClass(), testCase);
+      result = runner.run(request);
+      if (result.getFailureCount() > 0) {
+        return true;
+      }
+    }
+    return false;
+  }
+
   public int getResult() {
     return result;
   }
