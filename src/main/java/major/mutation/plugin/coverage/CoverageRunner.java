@@ -74,8 +74,8 @@ public class CoverageRunner implements TestSuiteRunner {
         t.join(milliseconds, deltaRemainder);
       } catch (Exception e) {
         // Failed to interrupt
-        t.interrupt();
       }
+      t.interrupt();
       if (!t.finished || !t.passed) {
         return true;
       }
