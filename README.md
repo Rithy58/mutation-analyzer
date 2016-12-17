@@ -48,7 +48,7 @@ public class ExampleAnalyzer {
   public static void main(String[] args) {
     // Instantiate Analyzer
     Analyzer analyzer = new Analyzer();
-    
+
     // Instantiate Components
     TestSuiteBuilder testLoader = new SingleTestLoader("TestSuite");
     TestSuiteRunner testRunner = new NaiveRunner();
@@ -72,7 +72,7 @@ public class ExampleAnalyzer {
 + Ethan Liu
 + Jing Liu
 
-[circleci-img]: https://img.shields.io/circleci/project/github/Rithy58/mutation-analyzer.svg?label=linux
+[circleci-img]: https://img.shields.io/circleci/project/github/Rithy58/mutation-analyzer/master.svg?label=linux
 [circleci-url]: https://circleci.com/gh/Rithy58/mutation-analyzer
 [travisci-img]: https://img.shields.io/travis/Rithy58/mutation-analyzer/master.svg?label=mac
 [travisci-url]: https://travis-ci.org/Rithy58/mutation-analyzer
