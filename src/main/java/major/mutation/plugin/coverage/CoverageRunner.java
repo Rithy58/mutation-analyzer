@@ -27,6 +27,7 @@ public class CoverageRunner implements TestSuiteRunner {
   // run the Test Suite
   public void runTest() {
     CoverageInformation[] information = new CoverageInformation[testClasses.length];
+    CoverageInformation.reset();
     JUnitCore junit = new JUnitCore();
     for(int i = 0; i < testClasses.length; i++) {
       CoverageListener coverageListener = new CoverageListener();

@@ -41,6 +41,7 @@ public class Analyzer {
       tsCalculator.outputResult();
     } else {
       // TODO: Throw exception
+      System.out.println("failed to load tests");
     }
   }
 }
