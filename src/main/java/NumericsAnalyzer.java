@@ -41,8 +41,11 @@ public class NumericsAnalyzer {
         analyzer.registerScoreCalculator(testResult);
 
         System.out.println("Running Analyzer...");
+        long startTime = System.nanoTime();
         analyzer.run();
-        System.out.println("Alive: " + Thread.activeCount());
+        long duration = System.nanoTime() - startTime;
+        System.out.println("Threads alive: " + Thread.activeCount());
+        System.out.println("Analysis time: " + duration);
         System.exit(0);
   }
 }
