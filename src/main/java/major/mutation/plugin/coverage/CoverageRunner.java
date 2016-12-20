@@ -36,6 +36,7 @@ public class CoverageRunner implements TestSuiteRunner {
       junit.removeListener(coverageListener);
     }
 
+    System.out.print("Killing mutant: ");
     Iterator<Integer> i = CoverageInformation.getAllMutants().iterator();
     while (i.hasNext()) {
       Config.__M_NO = i.next();
@@ -46,10 +47,12 @@ public class CoverageRunner implements TestSuiteRunner {
         if (killMutant(testClasses[t], information[t], junit)) {
           killedMutants.add(Config.__M_NO);
           result ++;
+          System.out.print(Config.__M_NO + " ");
           break;
         }
       }
     }
+    System.out.println(" ");
   }
 
   private boolean killMutant(TestClass testClass, CoverageInformation information, JUnitCore runner) {

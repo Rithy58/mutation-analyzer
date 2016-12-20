@@ -70,3 +70,19 @@ task runSampleAnalyzer(type: JavaExec, dependsOn: compileSampleAnalyzer) {
     classpath = files('lib/major/config/config.jar', 'lib/major/lib/junit-4.11.jar', 'sample/')
     main = 'SampleAnalyzer'
 }
+
+task compileNumerics4j(type: JavaCompile, dependsOn: extractMajor) {
+    classpath = files('lib/major/config/config.jar', 'lib/major/lib/junit-4.11.jar')
+    destinationDir = file('numerics4j/')
+    source = files('src/main/java/')
+}
+
+task runNumerics4j(type: JavaExec, dependsOn: compileNumerics4j) {
+    classpath = files('lib/major/config/config.jar', 'numerics4j/tests', 'numerics4j/bin/', 'lib/major/lib/junit-4.11.jar', 'numerics4j/')
+
+    List<String> argumentList = new ArrayList<String>();
+    argumentList.add('-Xms512m')
+    argumentList.add('-Xmx1024m')
+    jvmArgs = argumentList
+    main = 'NumericsAnalyzer'
+}
